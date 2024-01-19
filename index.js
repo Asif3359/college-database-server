@@ -33,6 +33,19 @@ app.get('/student', (req, res) => {
         res.send(data);
     });
 });
+app.get('/studentDetails/:id', (req, res) => {
+    const id = req.params.id;
+    const sqlGet = "SELECT * FROM student WHERE id=?";
+    db.query(sqlGet, [id], (error, result) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const data = result[0];
+        res.send(data);
+    });
+});
 app.post('/insert', (req, res) => {
     const id = req.body.id;
     const name = req.body.name;
@@ -63,3 +76,5 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('college server running on port 5000');
 })
+
+
