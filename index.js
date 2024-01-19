@@ -33,6 +33,24 @@ app.get('/student', (req, res) => {
         res.send(data);
     });
 });
+app.post('/insert', (req, res) => {
+    const id = req.body.id;
+    const name = req.body.name;
+    const cgpa = req.body.cgpa;
+    const email = req.body.email;
+    const phone = req.body.phone;
+
+    const sqlGet = "INSERT INTO student (id , Name, Email, Phone, cgpa) VALUES (?,?,?,?,?)";
+    db.query(sqlGet, [id, name, email, phone, cgpa], (error, result) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const data = result;
+        res.send(data);
+    });
+});
 
 
 
