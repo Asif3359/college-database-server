@@ -64,6 +64,25 @@ app.post('/insert', (req, res) => {
         res.send(data);
     });
 });
+app.put('/update/:id', (req, res) => {
+    const targetId = req.params.id;
+    const id = req.body.id;
+    const name = req.body.name;
+    const cgpa = req.body.cgpa;
+    const email = req.body.email;
+    const phone = req.body.phone;
+
+    const sqlGet = "UPDATE student SET id=?, Name=?, Email=?, Phone=?, cgpa=? WHERE id = ?";
+    db.query(sqlGet, [id, name, email, phone, cgpa, targetId], (error, result) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const data = result;
+        res.send(data);
+    });
+});
 
 
 
