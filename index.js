@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.get('/student', (req, res) => {
-    const sqlGet = 'select * from student';
+    const sqlGet = 'select * from student ORDER BY id';
     db.query(sqlGet, (error, result) => {
         if (error) {
             console.log(error);
@@ -83,6 +83,19 @@ app.put('/update/:id', (req, res) => {
         res.send(data);
     });
 });
+app.delete('/delete/:id', (req, res) => {
+    const targetId = req.params.id;
+    const sqlGet = "DELETE FROM student WHERE id = ?";
+    db.query(sqlGet, [targetId], (error, result) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        const data = result;
+        res.send(data);
+    });
+});
 
 
 
@@ -95,5 +108,6 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
     console.log('college server running on port 5000');
 })
+
 
 
